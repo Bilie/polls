@@ -2,27 +2,40 @@
   <section class="page">
     <p><router-link to="/" class="back-button">Back</router-link></p>
 
-    <section v-if="question">
-      <h1 class="page__headline">{{ question.question }}</h1>
+    <h1 class="page__headline" v-if="question">
+      {{ question.question }}
+    </h1>
 
-      <ul class="choices-list">
-        <li v-for="choice in question.choices">
-          <label class="radio-button">
-            <input
-              type="radio"
-              name="choices"
-              class="radio-button__input"
-              :value="choice.id"
-              v-model="selectedChoice" />
-            <span class="radio-button__label">{{ choice.choice }}</span>
-          </label>
-        </li>
-      </ul>
+    <section v-if="!loading">
+      <template v-if="!hasVoted">
+        <ul class="choices-list">
+          <li v-for="choice in question.choices">
+            <label class="radio-button">
+              <input
+                type="radio"
+                name="choices"
+                class="radio-button__input"
+                :value="choice.id"
+                v-model="selectedChoice" />
+              <span class="radio-button__label">{{ choice.choice }}</span>
+            </label>
+          </li>
+        </ul>
 
-      <section class="buttons-container">
-        <button @click="vote($route.params.id, selectedChoice)">Vote</button>  
-      </section>
+        <section class="buttons-container">
+          <button @click="vote($route.params.id, selectedChoice)">Vote</button>  
+        </section>
+      </template>
+      
+      <template v-else>
+        <ul class="poll-results-list">
+          <li class="poll-results-list__item" v-for="choice in question.choices">
+            <p>{{ choice.choice }}: <span class="votes-count">{{ choice.votes }}</span> votes</p>
+          </li>  
+        </ul>
+      </template>
     </section>
+
     <section v-else>Loading</section>
   </section>
 </template>
@@ -35,7 +48,9 @@ export default {
   data() {
     return {
       question: null,
-      selectedChoice: null
+      selectedChoice: null,
+      hasVoted: false,
+      loading: true
     }
   },
   mounted() {
@@ -43,6 +58,7 @@ export default {
   },
   methods: {
     fetchQuestionById(id) {
+      this.loading = true;
       fetch(`${BASE_URL}/questions/${id}`)
         .then((response) => response.json())
         .then((data) => {
@@ -51,14 +67,18 @@ export default {
             choice.id = this.getChoiceId(choice);
           })
           this.selectedChoice = this.question.choices[0].id;
+          this.loading = false;
         });
     },
     vote(questionId, choiceId) {
+      this.loading = true;
+
       fetch(`${BASE_URL}/questions/${questionId}/choices/${choiceId}`)
         .then((response) => response.json())
         .then((json) => {
           // voted
-          console.log('voted');
+          this.hasVoted = true;
+          this.loading = false;
         });
     },
     getChoiceId(choice) {
@@ -72,13 +92,27 @@ export default {
 <style lang="scss">
   @import "@/styles/helpers.scss";
 
-  .choices-list {
+  .choices-list,
+  .poll-results-list {
     @include reset-list;
   }
 
   .back-button {
     color: inherit;
     text-decoration: none;
+  }
+
+  // Poll results
+  .poll-results-list {
+    margin: 50px 0 50px 100px
+  }
+
+  .poll-results-list__item {
+    margin-bottom: 16px;
+  }
+
+  .votes-count {
+    font-size: 28px;
   }
 
   // Radio buttons
