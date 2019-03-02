@@ -28,6 +28,8 @@
 </template>
 
 <script>
+import { BASE_URL } from '@/constants.js';
+
 export default {
   name: "QuestionDetail",
   data() {
@@ -41,7 +43,7 @@ export default {
   },
   methods: {
     fetchQuestionById(id) {
-      fetch(`https://polls.apiblueprint.org/questions/${id}`)
+      fetch(`${BASE_URL}/questions/${id}`)
         .then((response) => response.json())
         .then((data) => {
           this.question = data;
@@ -52,7 +54,7 @@ export default {
         });
     },
     vote(questionId, choiceId) {
-      fetch(`https://polls.apiblueprint.org/questions/${questionId}/choices/${choiceId}`)
+      fetch(`${BASE_URL}/questions/${questionId}/choices/${choiceId}`)
         .then((response) => response.json())
         .then((json) => {
           // voted

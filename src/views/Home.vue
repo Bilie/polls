@@ -7,6 +7,7 @@
 </template>
 
 <script>
+import { BASE_URL } from '@/constants.js';
 import QuestionsList from "@/components/QuestionsList.vue";
 
 export default {
@@ -24,7 +25,7 @@ export default {
   },
   methods: {
     fetchQuestions() {
-      fetch('https://polls.apiblueprint.org/questions')
+      fetch(`${BASE_URL}/questions`)
         .then((response) => response.json())
         .then((data) => {
           this.questions = data;
