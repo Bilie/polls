@@ -6,9 +6,10 @@
       {{ question.question }}
     </h1>
 
-    <section v-if="!loading">
+    <section v-if="!loading && !hasError">
+      <!-- Poll cote form -->
       <template v-if="!hasVoted">
-        <ul class="choices-list">
+        <ul class="indented-content-box choices-list">
           <li v-for="choice in question.choices">
             <label class="radio-button">
               <input
@@ -22,11 +23,13 @@
           </li>
         </ul>
 
-        <section class="buttons-container">
-          <button @click="vote($route.params.id, selectedChoice)">Vote</button>  
+        <section class="buttons-container indented-content-box">
+          <button @click="vote($route.params.id, selectedChoice)">Vote</button>
+          <Error size="small" v-if="hasVotingError" />
         </section>
       </template>
       
+      <!-- Poll results -->
       <template v-else>
         <ul class="poll-results-list">
           <li class="poll-results-list__item" v-for="choice in question.choices">
@@ -36,21 +39,29 @@
       </template>
     </section>
 
-    <section v-else>Loading</section>
+    <section v-if="loading">Loading</section>
+
+    <section v-if="hasError"><Error /></section>
   </section>
 </template>
 
 <script>
 import { BASE_URL } from '@/constants.js';
+import Error from "@/components/Error";
 
 export default {
   name: "QuestionDetail",
+  components: {
+    Error
+  },
   data() {
     return {
       question: null,
       selectedChoice: null,
+      loading: true,
       hasVoted: false,
-      loading: true
+      hasError: false,
+      hasVotingError: false
     }
   },
   mounted() {
@@ -59,6 +70,8 @@ export default {
   methods: {
     fetchQuestionById(id) {
       this.loading = true;
+      this.hasError = false;
+
       fetch(`${BASE_URL}/questions/${id}`)
         .then((response) => response.json())
         .then((data) => {
@@ -68,16 +81,25 @@ export default {
           })
           this.selectedChoice = this.question.choices[0].id;
           this.loading = false;
+        })
+        .catch(() => {
+          this.hasError = true;
+          this.loading = false;
         });
     },
     vote(questionId, choiceId) {
       this.loading = true;
+      this.hasVotingError = false;
 
       fetch(`${BASE_URL}/questions/${questionId}/choices/${choiceId}`)
         .then((response) => response.json())
         .then((json) => {
           // voted
           this.hasVoted = true;
+          this.loading = false;
+        })
+        .catch(() => {
+          this.hasVotingError = true;
           this.loading = false;
         });
     },
@@ -92,21 +114,18 @@ export default {
 <style lang="scss">
   @import "@/styles/helpers.scss";
 
-  .choices-list,
-  .poll-results-list {
-    @include reset-list;
-  }
-
   .back-button {
     color: inherit;
     text-decoration: none;
   }
 
-  // Poll results
+  .choices-list,
   .poll-results-list {
-    margin: 50px 0 50px 100px
+    @include reset-list;
+    @include indented-content-box;
   }
 
+  // Poll results
   .poll-results-list__item {
     margin-bottom: 16px;
   }
