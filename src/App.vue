@@ -9,6 +9,7 @@
 </template>
 
 <style lang="scss">
+@import "~normalize-scss/sass/normalize/_import-now.scss";
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
