@@ -2,12 +2,11 @@
   <div class="page">
     <h1 class="page__headline">Polls</h1>
     <p>Select a poll to vote</p>
-    <template v-if="!hasError">
+    <template v-if="!loading && !hasError">
       <QuestionsList :data="questions" />
     </template>
-    <template v-else>
-      <Error />
-    </template>
+    <template v-if="hasError"><Error /></template>
+    <section v-if="loading">Loading...</section>
   </div>
 </template>
 
@@ -25,7 +24,8 @@ export default {
   data() {
     return {
       questions: [],
-      hasError: false
+      hasError: false,
+      loading: true
     }
   },
   mounted() {
@@ -33,10 +33,13 @@ export default {
   },
   methods: {
     fetchQuestions() {
+      this.loading = true;
+
       fetch(`${BASE_URL}/questions`)
         .then((response) => response.json())
         .then((data) => {
           this.questions = data;
+          this.loading = false;
         })
         .catch(() => {
           this.hasError = true;
