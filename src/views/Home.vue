@@ -1,18 +1,35 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+  <div class="page">
+    <h1 class="page__headline">Polls</h1>
+    <p>Select a poll to vote</p>
+    <QuestionsList :data="questions" />
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
+import QuestionsList from "@/components/QuestionsList.vue";
 
 export default {
   name: "home",
   components: {
-    HelloWorld
+    QuestionsList
+  },
+  data() {
+    return {
+      questions: []
+    }
+  },
+  mounted() {
+    this.fetchQuestions();
+  },
+  methods: {
+    fetchQuestions() {
+      fetch('https://polls.apiblueprint.org/questions')
+        .then((response) => response.json())
+        .then((data) => {
+          this.questions = data;
+        });
+    }
   }
 };
 </script>
