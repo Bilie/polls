@@ -43,6 +43,7 @@ export default {
         })
         .catch(() => {
           this.hasError = true;
+          this.loading = false;
         });
     }
   }
