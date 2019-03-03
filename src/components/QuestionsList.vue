@@ -1,9 +1,6 @@
 <template>
   <ul class="questions-list">
-    <li
-      class="questions-list__item"
-      :key="index"
-      v-for="(item, index) in data">
+    <li class="questions-list__item" :key="index" v-for="(item, index) in data">
       <router-link :to="item.url" class="questions-list__link">
         {{ item.question }}
       </router-link>
@@ -55,7 +52,7 @@ export default {
 }
 
 .questions-list__link {
-  position: relative; 
+  position: relative;
   z-index: 1;
   display: inline-flex;
   width: 100%;

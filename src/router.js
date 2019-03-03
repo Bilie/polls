@@ -20,8 +20,8 @@ export default new Router({
         import(/* webpackChunkName: "questionDetail" */ "./views/QuestionDetail.vue")
     },
     {
-      path: '/questions',
-      redirect: '/'
+      path: "/questions",
+      redirect: "/"
     }
   ]
 });

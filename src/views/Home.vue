@@ -5,7 +5,9 @@
     <template v-if="!loading && !hasError">
       <QuestionsList :data="questions" />
     </template>
-    <template v-if="hasError"><Error /></template>
+    <template v-if="hasError"
+      ><Error
+    /></template>
     <section v-if="loading">Loading...</section>
   </div>
 </template>
@@ -26,7 +28,7 @@ export default {
       questions: [],
       hasError: false,
       loading: true
-    }
+    };
   },
   mounted() {
     this.fetchQuestions();
@@ -36,8 +38,8 @@ export default {
       this.loading = true;
 
       fetch(`${BASE_URL}/questions`)
-        .then((response) => response.json())
-        .then((data) => {
+        .then(response => response.json())
+        .then(data => {
           this.questions = data;
           this.loading = false;
         })

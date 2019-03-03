@@ -17,7 +17,8 @@
                 name="choices"
                 class="radio-button__input"
                 :value="choice.id"
-                v-model="selectedChoice" />
+                v-model="selectedChoice"
+              />
               <span class="radio-button__label">{{ choice.choice }}</span>
             </label>
           </li>
@@ -28,13 +29,19 @@
           <Error size="small" v-if="hasVotingError" />
         </section>
       </template>
-      
+
       <!-- Poll results -->
       <template v-else>
         <ul class="poll-results-list">
-          <li class="poll-results-list__item" v-for="choice in question.choices">
-            <p>{{ choice.choice }}: <span class="votes-count">{{ choice.votes }}</span> votes</p>
-          </li>  
+          <li
+            class="poll-results-list__item"
+            v-for="choice in question.choices"
+          >
+            <p>
+              {{ choice.choice }}:
+              <span class="votes-count">{{ choice.votes }}</span> votes
+            </p>
+          </li>
         </ul>
       </template>
     </section>
@@ -46,7 +53,7 @@
 </template>
 
 <script>
-import { BASE_URL } from '@/constants.js';
+import { BASE_URL } from "@/constants.js";
 import Error from "@/components/Error";
 
 export default {
@@ -62,7 +69,7 @@ export default {
       hasVoted: false,
       hasError: false,
       hasVotingError: false
-    }
+    };
   },
   mounted() {
     const shouldVote = true;
@@ -74,15 +81,15 @@ export default {
       this.hasError = false;
 
       fetch(`${BASE_URL}/questions/${id}`)
-        .then((response) => response.json())
-        .then((data) => {
+        .then(response => response.json())
+        .then(data => {
           this.question = data;
 
           if (shouldVote) {
-            this.question.choices.map((choice) => {
+            this.question.choices.map(choice => {
               choice.id = this.getChoiceId(choice);
-            })
-            this.selectedChoice = this.question.choices[0].id;            
+            });
+            this.selectedChoice = this.question.choices[0].id;
           }
           this.loading = false;
         })
@@ -100,10 +107,10 @@ export default {
         mode: "cors",
         headers: {
           "Content-Type": "application/json"
-        },
+        }
       })
-        .then((response) => response.json())
-        .then((json) => {
+        .then(response => response.json())
+        .then(json => {
           // voted
           this.hasVoted = true;
           this.loading = false;
@@ -119,102 +126,102 @@ export default {
       return parts[parts.length - 1];
     }
   }
-}
+};
 </script>
 
 <style lang="scss">
-  @import "@/styles/helpers.scss";
+@import "@/styles/helpers.scss";
 
-  .back-button {
-    color: inherit;
-    text-decoration: none;
-  }
+.back-button {
+  color: inherit;
+  text-decoration: none;
+}
 
-  .choices-list,
-  .poll-results-list {
-    @include reset-list;
-    @include indented-content-box;
-  }
+.choices-list,
+.poll-results-list {
+  @include reset-list;
+  @include indented-content-box;
+}
 
-  // Poll results
-  .poll-results-list__item {
-    margin-bottom: 16px;
-  }
+// Poll results
+.poll-results-list__item {
+  margin-bottom: 16px;
+}
 
-  .votes-count {
-    font-size: 28px;
-  }
+.votes-count {
+  font-size: 28px;
+}
 
-  // Radio buttons
-  .radio-button__input {
-    visibility: hidden;
-    width: 1px;
-    height: 1px;
-    left: -999px;
+// Radio buttons
+.radio-button__input {
+  visibility: hidden;
+  width: 1px;
+  height: 1px;
+  left: -999px;
 
-    &:checked + .radio-button__label {
-      &:after {
-        display: block;
-      }
-    }
-  }
-
-  .radio-button__label {
-    display: block;
-    position: relative;
-    box-sizing: border-box;
-    padding-left: 48px;
-    line-height: 2.25;
-
-    &:hover {
-      cursor: pointer;
-    }
-
-    &:before,
+  &:checked + .radio-button__label {
     &:after {
-      position: absolute;
-      top: 0;
-      left: 0;
       display: block;
-      border-radius: 50%;
-      content: '';
-    }
-
-    &:before {
-      width: 32px;
-      height: 32px;
-      border: 2px solid rgba(#fff, 0.5);
-      background-color: transparent;
-    }
-
-    &:after {
-      top: 10px;
-      left: 10px;
-      display: none;
-      width: 16px;
-      height: 16px;
-      background-color: rgba(#fff, 0.5);
     }
   }
+}
 
-  // Buttons
-  .buttons-container {
-    box-sizing: border-box;
-    padding: 16px 0;
+.radio-button__label {
+  display: block;
+  position: relative;
+  box-sizing: border-box;
+  padding-left: 48px;
+  line-height: 2.25;
+
+  &:hover {
+    cursor: pointer;
   }
 
-  button,
-  .button {
-    appearance: none;
-    border: none;
-    background-color: rgba(255,255,255, 0.7);
-    box-sizing: border-box;
-    padding: 8px 16px;
-    transition: background-color 0.3s;
-
-    &:hover {
-      background-color: rgba(255,255,255, 0.9);
-      cursor: pointer;
-    }
+  &:before,
+  &:after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    border-radius: 50%;
+    content: "";
   }
+
+  &:before {
+    width: 32px;
+    height: 32px;
+    border: 2px solid rgba(#fff, 0.5);
+    background-color: transparent;
+  }
+
+  &:after {
+    top: 10px;
+    left: 10px;
+    display: none;
+    width: 16px;
+    height: 16px;
+    background-color: rgba(#fff, 0.5);
+  }
+}
+
+// Buttons
+.buttons-container {
+  box-sizing: border-box;
+  padding: 16px 0;
+}
+
+button,
+.button {
+  appearance: none;
+  border: none;
+  background-color: rgba(255, 255, 255, 0.7);
+  box-sizing: border-box;
+  padding: 8px 16px;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.9);
+    cursor: pointer;
+  }
+}
 </style>
