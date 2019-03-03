@@ -49,7 +49,7 @@
 
     <section v-if="loading">Loading...</section>
 
-    <section v-if="hasError"><Error /></section>
+    <section v-if="!loading && hasError"><Error /></section>
   </section>
 </template>
 
