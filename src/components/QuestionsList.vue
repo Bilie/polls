@@ -29,7 +29,7 @@ export default {
   display: flex;
   flex-wrap: wrap;
   @include reset-list;
-  justify-content: space-between;
+  justify-content: flex-start;
   margin: 50px 0 50px 100px;
 
   @media only screen and (max-width: 600px) {
