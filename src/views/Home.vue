@@ -1,7 +1,7 @@
 <template>
   <div class="page">
     <h1 class="page__headline">Polls</h1>
-    <p>Select a poll to vote</p>
+    <p v-if="!loading">Select a poll to vote</p>
     <template v-if="!loading && !hasError">
       <QuestionsList :data="questions" />
     </template>
