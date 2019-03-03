@@ -1,5 +1,5 @@
 <template>
-  <div class="page">
+  <section class="page">
     <h1 class="page__headline">Polls</h1>
     <p v-if="!loading">Select a poll to vote</p>
     <template v-if="!loading && !hasError">
@@ -9,7 +9,7 @@
       ><Error
     /></template>
     <section v-if="loading">Loading...</section>
-  </div>
+  </section>
 </template>
 
 <script>
