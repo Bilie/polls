@@ -65,10 +65,11 @@ export default {
     }
   },
   mounted() {
-    this.fetchQuestionById(this.$route.params.id);
+    const shouldVote = true;
+    this.fetchQuestionById(this.$route.params.id, shouldVote);
   },
   methods: {
-    fetchQuestionById(id) {
+    fetchQuestionById(id, shouldVote = false) {
       this.loading = true;
       this.hasError = false;
 
@@ -76,10 +77,13 @@ export default {
         .then((response) => response.json())
         .then((data) => {
           this.question = data;
-          this.question.choices.map((choice) => {
-            choice.id = this.getChoiceId(choice);
-          })
-          this.selectedChoice = this.question.choices[0].id;
+
+          if (shouldVote) {
+            this.question.choices.map((choice) => {
+              choice.id = this.getChoiceId(choice);
+            })
+            this.selectedChoice = this.question.choices[0].id;            
+          }
           this.loading = false;
         })
         .catch(() => {
@@ -91,12 +95,19 @@ export default {
       this.loading = true;
       this.hasVotingError = false;
 
-      fetch(`${BASE_URL}/questions/${questionId}/choices/${choiceId}`)
+      fetch(`${BASE_URL}/questions/${questionId}/choices/${choiceId}`, {
+        method: "POST",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json"
+        },
+      })
         .then((response) => response.json())
         .then((json) => {
           // voted
           this.hasVoted = true;
           this.loading = false;
+          this.fetchQuestionById(questionId);
         })
         .catch(() => {
           this.hasVotingError = true;
@@ -104,7 +115,7 @@ export default {
         });
     },
     getChoiceId(choice) {
-      const parts = choice.url.split('/');
+      const parts = choice.url.split("/");
       return parts[parts.length - 1];
     }
   }
