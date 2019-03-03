@@ -1,6 +1,9 @@
 # polls
 
 ## Project setup
+
+Make sure you have [Node](https://nodejs.org/en/download/) installed.
+
 ```
 npm install
 ```
