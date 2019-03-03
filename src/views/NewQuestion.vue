@@ -1,5 +1,7 @@
 <template>
   <section class="page">
+    <p><router-link to="/" class="back-button">Back</router-link></p>
+    
     <h1 class="page__headline">New Poll</h1>
     <p v-if="!loading && !pollCreated">Create your own poll</p>
     <p v-if="!loading && pollCreated">Your poll has been successfully created!</p>
