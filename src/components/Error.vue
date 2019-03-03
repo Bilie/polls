@@ -12,7 +12,7 @@
     props: {
       size: {
         type: String,
-        default: ''
+        default: ""
       }
     }
   }

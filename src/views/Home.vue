@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { BASE_URL } from '@/constants.js';
+import { BASE_URL } from "@/constants.js";
 import QuestionsList from "@/components/QuestionsList.vue";
 import Error from "@/components/Error.vue";
 
