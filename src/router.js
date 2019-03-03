@@ -14,6 +14,12 @@ export default new Router({
       component: Home
     },
     {
+      path: "/questions/new",
+      name: "New Question",
+      component: () =>
+        import(/* webpackChunkName: "newQuestion" */ "./views/NewQuestion.vue")
+    },
+    {
       path: "/questions/:id",
       name: "Question Detail",
       component: () =>
