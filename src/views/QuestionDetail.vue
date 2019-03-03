@@ -204,25 +204,4 @@ export default {
     background-color: rgba(#fff, 0.5);
   }
 }
-
-// Buttons
-.buttons-container {
-  box-sizing: border-box;
-  padding: 16px 0;
-}
-
-button,
-.button {
-  appearance: none;
-  border: none;
-  background-color: rgba(255, 255, 255, 0.7);
-  box-sizing: border-box;
-  padding: 8px 16px;
-  transition: background-color 0.3s;
-
-  &:hover {
-    background-color: rgba(255, 255, 255, 0.9);
-    cursor: pointer;
-  }
-}
 </style>
