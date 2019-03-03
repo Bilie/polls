@@ -10,7 +10,7 @@
       <!-- Poll cote form -->
       <template v-if="!hasVoted">
         <ul class="indented-content-box choices-list">
-          <li v-for="choice in question.choices">
+          <li v-for="choice in question.choices" :key="choice.id">
             <label class="radio-button">
               <input
                 type="radio"
@@ -35,7 +35,8 @@
         <ul class="poll-results-list">
           <li
             class="poll-results-list__item"
-            v-for="choice in question.choices"
+            v-for="(choice, index) in question.choices"
+            :key="index"
           >
             <p>
               {{ choice.choice }}:
@@ -110,7 +111,7 @@ export default {
         }
       })
         .then(response => response.json())
-        .then(json => {
+        .then(() => {
           // voted
           this.hasVoted = true;
           this.loading = false;
