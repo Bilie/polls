@@ -1,5 +1,8 @@
 @import "~normalize-scss/sass/normalize/_import-now.scss";
 @import "@/styles/helpers.scss";
+@import "@/styles/resets.scss";
+@import "@/styles/layout.scss";
+@import "@/styles/ui-elements/all.scss";
 
 body {
   background: linear-gradient(-45deg, #9198e5, #ffdadb);
@@ -9,74 +12,4 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #454545;
-}
-
-// Layout
-.page {
-  width: 100%;
-  max-width: 1024px;
-  min-height: 100vh;
-  margin: 0 auto;
-  box-sizing: border-box;
-  padding: 32px 24px;
-}
-
-.page__headline {
-  font-size: 64px;
-  line-height: 1.2;
-}
-
-// Indented box
-.indented-content-box {
-  @include indented-content-box;
-}
-
-// Resets
-h1 {
-  margin: 0;
-}
-
-p {
-  margin: 0;
-}
-
-//Buttons
-.buttons-container {
-  box-sizing: border-box;
-  padding: 16px 0;
-
-  button,
-  .button {
-    margin-right: 16px;
-    margin-bottom: 16px;
-
-    &:last-of-type {
-      margin-right: 0;
-    }
-  }
-}
-
-button,
-.button {
-  appearance: none;
-  border: 1px solid transparent;
-  background-color: rgba(255, 255, 255, 0.7);
-  box-sizing: border-box;
-  padding: 8px 16px;
-  transition: background-color 0.3s;
-
-  &:hover {
-    background-color: rgba(255, 255, 255, 0.9);
-    cursor: pointer;
-  }
-}
-
-.button--secondary {
-  border: 1px solid white;
-  background-color: transparent;
-  color: white;
-
-  &:hover {
-    background-color: rgba(255, 255, 255, 0.2);
-  }
 }

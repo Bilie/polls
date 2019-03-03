@@ -133,11 +133,6 @@ export default {
 <style lang="scss">
 @import "@/styles/helpers.scss";
 
-.back-button {
-  color: inherit;
-  text-decoration: none;
-}
-
 .choices-list,
 .poll-results-list {
   @include reset-list;
